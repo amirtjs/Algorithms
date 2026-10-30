@@ -1,56 +1,57 @@
-#ifndef ARRAY_TEMPLATE_H
-#define ARRAY_TEMPLATE_H
+#ifndef STACK_TEMPLATE_H
+#define STACK_TEMPLATE_H
 
-#include <cstddef>
+#include "list.h"
 
-template <typename Data> class Array
+template <typename Data> class Stack
 {
 public:
-    explicit Array(size_t size) : _size(size), _data(new Data[size])
+   
+    Stack()
     {
     }
 
-    Array(const Array &a) : _size(a._size), _data(new Data[a._size])
+
+    Stack(const Stack &a) : _list(a._list)
     {
-        for (size_t i = 0; i < _size; i++)
-            _data[i] = a._data[i];
     }
 
-    Array &operator=(const Array &a)
+  
+    Stack &operator=(const Stack &a)
     {
-        if (this != &a) {
-            delete[] _data;
-            _size = a._size;
-            _data = new Data[_size];
-            for (size_t i = 0; i < _size; i++)
-                _data[i] = a._data[i];
-        }
+        _list = a._list;
         return *this;
     }
 
-    ~Array()
+    ~Stack()
     {
-        delete[] _data;
     }
 
-    Data get(size_t index) const
+    void push(Data data)
     {
-        return _data[index];
+        _list.insert(data);
     }
 
-    void set(size_t index, Data value)
+   
+    Data get() const
     {
-        _data[index] = value;
+        return const_cast<List<Data> &>(_list).first()->data();
     }
 
-    size_t size() const
+
+    void pop()
     {
-        return _size;
+        _list.erase_first();
+    }
+
+
+    bool empty() const
+    {
+        return const_cast<List<Data> &>(_list).first() == nullptr;
     }
 
 private:
-    size_t _size;
-    Data *_data;
+    List<Data> _list;
 };
 
 #endif
