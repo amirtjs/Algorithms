@@ -51,27 +51,28 @@ public:
         return _last;
     }
 
-    // вставка в начало
+    //вставка в начало
     Item *insert(Data data)
     {
-        return insert_after(nullptr, data);
+        Item *node = new Item(data);
+        node->_next = _first;
+        _first = node;
+        if (!_last)
+            _last = node;
+        return node;
     }
 
-    //вставка после item если item == nullptr то в начало
+    // вставка после item если item ==nullptr то в начало
     Item *insert_after(Item *item, Data data)
     {
+        if (!item)
+            return insert(data);
+
         Item *node = new Item(data);
-        if (!item) {
-            node->_next = _first;
-            _first = node;
-            if (!_last)
-                _last = node;
-        } else {
-            node->_next = item->_next;
-            item->_next = node;
-            if (!node->_next)
-                _last = node;
-        }
+        node->_next = item->_next;
+        item->_next = node;
+        if (!node->_next)
+            _last = node;
         return node;
     }
 
@@ -93,7 +94,7 @@ public:
         else
             _first = next;
 
-        // если удалили последний, то последним становится item
+        //если удалили посл то последним становится item
         if (target == _last)
             _last = item;
 
