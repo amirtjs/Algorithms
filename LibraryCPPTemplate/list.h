@@ -21,7 +21,7 @@ public:
     List() : _first(nullptr), _last(nullptr)
     {
     }
-
+    //копир конструктор
     List(const List &a) : _first(nullptr), _last(nullptr)
     {
         copy_from(a);
@@ -35,7 +35,7 @@ public:
         }
         return *this;
     }
-
+    //избег утеч памят
     ~List()
     {
         clear();
@@ -75,13 +75,14 @@ public:
             _last = node;
         return node;
     }
-
+    //удал пер ел
     Item *erase_first()
     {
         return erase_next(nullptr);
     }
 
-    //удал эл после item если item == nullptr то первый
+    //реализ удал
+    //удал эл после item если item == nullptr то первый O(1)
     Item *erase_next(Item *item)
     {
         Item *target = item ? item->_next : _first;
